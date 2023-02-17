@@ -1,0 +1,157 @@
+.about-project {
+  margin: 90px 0 110px;
+  padding: 20px 70px 0;
+}
+
+.about-project__header {
+  margin: 0;
+  border-bottom: 1px solid white;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  padding-bottom: 23px;
+}
+
+.about-project__card-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 70px;
+  gap: 50px;
+}
+
+.about-project__card {
+}
+
+.about-project__card-title {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+}
+
+.about-project__card-text {
+  margin: 26px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__timeline {
+  margin-top: 110px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.about-project__timeline-backend {
+}
+
+.about-project__timeline-frontend {
+}
+
+.about-project__timeline-backend .about-project__timeline-title {
+  background-color: #3ddc84;
+  color: #000000;
+}
+.about-project__timeline-frontend .about-project__timeline-title {
+  background-color: #303030;
+}
+
+.about-project__timeline-title {
+  margin: 0;
+  padding: 9px 0;
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  height: 36px;
+}
+
+.about-project__timeline-subtitle {
+  margin: 14px 0 0;
+  color: #8b8b8b;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+@media screen and (max-width: 769px) {
+  .about-project {
+    margin: 70px 0 90px;
+    padding: 20px 50px 0;
+  }
+
+  .about-project__card-container {
+    gap: 37px;
+  }
+
+  .about-project__card-title {
+  }
+
+  .about-project__card-text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-project__card-text {
+    margin-top: 22px;
+  }
+
+  .about-project__timeline {
+    margin-top: 93px;
+  }
+
+  .about-project__timeline {
+    grid-template-columns: 1fr 3.77fr;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .about-project {
+    padding: 0 18px;
+  }
+
+  .about-project__header {
+    font-size: 18px;
+    line-height: 22px;
+    padding-bottom: 28px;
+  }
+
+  .about-project__card-container {
+    flex-direction: column;
+    margin-top: 60px;
+    gap: 56px;
+  }
+
+  .about-project__card-title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .about-project__card-text {
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 16px;
+  }
+
+  .about-project__timeline {
+    margin-top: 60px;
+    grid-template-columns: 1fr 1.84fr;
+  }
+
+  .about-project__timeline-title {
+    font-size: 11px;
+    line-height: 13px;
+    padding: 12px;
+  }
+
+  .about-project__timeline-subtitle {
+    font-size: 11px;
+    line-height: 13px;
+    margin-top: 10px;
+  }
+}
