@@ -1,6 +1,6 @@
 import './Navigation.css'
 import {NavLink} from 'react-router-dom'
-import navLinks from '../utils/navLinks'
+import navLinks from '../../utils/navLinks'
 import Profile from '../Profile/Profile'
 
 function Navigation({isAuth, isBurgerOpened, onClickAccordion}) {

@@ -3,6 +3,7 @@ import Header from '../Header/Header'
 import {useState} from 'react'
 import {Route, Routes} from 'react-router-dom'
 import Main from '../Main/Main'
+import Footer from '../Footer/Footer'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -22,6 +23,7 @@ function App() {
           <Route path='/' element={<Main />}></Route>
         </Routes>
       </div>
+      <Footer />
     </div>
   )
 }

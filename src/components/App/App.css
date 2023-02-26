@@ -8,6 +8,7 @@
 .link {
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .link:hover {
