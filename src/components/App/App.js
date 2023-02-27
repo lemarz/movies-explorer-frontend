@@ -4,6 +4,7 @@ import {useState} from 'react'
 import {Route, Routes} from 'react-router-dom'
 import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
+import Movies from '../Movies/Movies'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -21,6 +22,7 @@ function App() {
         />{' '}
         <Routes>
           <Route path='/' element={<Main />}></Route>
+          <Route path='/movies' element={<Movies />}></Route>
         </Routes>
       </div>
       <Footer />
