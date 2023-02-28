@@ -1,12 +1,13 @@
 .footer {
-  padding: 0 70px;
+  padding: 58px 70px 0;
+  box-sizing: border-box;
   max-width: 1280px;
   margin: 0 auto;
-  min-height: 172px;
+  min-height: 152px;
 }
 
 .footer__about {
-  margin: 58px 0 0;
+  margin: 0;
   padding-bottom: 20px;
   color: #8b8b8b;
   font-weight: 400;
@@ -39,7 +40,8 @@
 
 @media screen and (max-width: 769px) {
   .footer {
-    padding: 0 30px;
+    padding: 59px 30px 20px;
+    box-sizing: border-box;
     min-height: 95px;
   }
 
@@ -57,7 +59,8 @@
 }
 @media screen and (max-width: 450px) {
   .footer {
-    padding: 0 10px 20px;
+    padding: 60px 10px 20px;
+    box-sizing: border-box;
   }
 
   .footer__about {

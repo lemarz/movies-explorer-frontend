@@ -42,3 +42,28 @@
 .search-form_checkbox {
   margin-top: 30px;
 }
+
+@media screen and (max-width: 769px) {
+}
+
+@media screen and (max-width: 450px) {
+  .search-form__input {
+    min-height: 44px;
+    max-width: 212px;
+    padding: 0 16px;
+  }
+
+  .search-form__input::placeholder {
+    margin: 0;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .search-form__button {
+    min-width: 70px;
+  }
+
+  .search-form_checkbox {
+    margin-top: 45px;
+  }
+}
