@@ -132,6 +132,7 @@
   }
 
   .navigation__menu-blur_disabled {
+    z-index: -1;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -142,6 +143,7 @@
   }
 
   .navigation__menu-blur_active {
+    z-index: 3;
     position: fixed;
     top: 0;
     bottom: 0;

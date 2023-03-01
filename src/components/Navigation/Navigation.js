@@ -1,7 +1,7 @@
 import './Navigation.css'
 import {NavLink} from 'react-router-dom'
 import navLinks from '../../utils/navLinks'
-import Profile from '../Profile/Profile'
+import AccountButton from '../AccountButton/AccountButton'
 
 function Navigation({isAuth, isBurgerOpened, onClickAccordion}) {
   return (
@@ -59,13 +59,13 @@ function Navigation({isAuth, isBurgerOpened, onClickAccordion}) {
                 <div
                   className='navigation__menu-item_burger navigation__menu-item_burger_profile'
                   onClick={onClickAccordion}>
-                  <Profile />
+                  <AccountButton />
                 </div>
               </ul>
             </nav>
           </div>
           <div className='navigation_profile-container'>
-            <Profile />
+            <AccountButton />
           </div>
         </div>
       ) : (

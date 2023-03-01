@@ -1,13 +1,15 @@
 import './App.css'
 import Header from '../Header/Header'
 import {useState} from 'react'
-import {Route, Routes} from 'react-router-dom'
+import {Route, Routes, useLocation} from 'react-router-dom'
 import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
 import Movies from '../Movies/Movies'
+import Profile from '../Profile/Profile'
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false)
+  const location = useLocation()
+  const [isAuth, setIsAuth] = useState(true)
   const [isBurgerOpened, setIsBurgerOpened] = useState(false)
 
   const handleClickAccordion = () => setIsBurgerOpened(!isBurgerOpened)
@@ -19,13 +21,14 @@ function App() {
           isAuth={isAuth}
           isBurgerOpened={isBurgerOpened}
           onClickAccordion={handleClickAccordion}
-        />{' '}
+        />
         <Routes>
           <Route path='/' element={<Main />}></Route>
           <Route path='/movies' element={<Movies />}></Route>
+          <Route path='/profile' element={<Profile />}></Route>
         </Routes>
       </div>
-      <Footer />
+      {location.pathname !== '/profile' && <Footer />}
     </div>
   )
 }
