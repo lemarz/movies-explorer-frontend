@@ -9,6 +9,7 @@ import Profile from '../Profile/Profile'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
 import NotFound from '../NotFound/NotFound'
+import SavedMovies from '../SavedMovies/SavedMovies'
 
 function App() {
   const location = useLocation()
@@ -25,8 +26,8 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <div className='page'>
+    <div className='app'>
+      <div className='app__page'>
         {isComponentActive(headerRoutesArr) && (
           <Header
             isAuth={isAuth}
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Main />}></Route>
           <Route path='/movies' element={<Movies />}></Route>
+          <Route path='/saved-movies' element={<SavedMovies />}></Route>
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/signup' element={<Register />}></Route>
           <Route path='/signin' element={<Login />}></Route>

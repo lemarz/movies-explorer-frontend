@@ -1,10 +1,9 @@
 import './MoviesCardList.css'
-import moviesData from '../../utils/moviesData'
 import MoviesCard from '../MoviesCard/MoviesCard'
 import {useEffect, useState} from 'react'
 import {useWindowWidth} from '../../hooks/useWindowWidth'
 
-function MoviesCardList() {
+function MoviesCardList({moviesArr}) {
   const [cardsNumber, setCardsNumber] = useState(null)
   const [cardsNumberToAdd, setCardsNumberToAdd] = useState(null)
 
@@ -29,7 +28,7 @@ function MoviesCardList() {
   return (
     <div className='movies-card-list'>
       <div className='movies-card-list__cards'>
-        {moviesData.map((item, i) => {
+        {moviesArr.map((item, i) => {
           if (i < cardsNumber) {
             return (
               <MoviesCard
@@ -44,9 +43,13 @@ function MoviesCardList() {
           return null
         })}
       </div>
-      <button className='movies-card-list__more-movies' onClick={getMoreCards}>
-        Ещё
-      </button>
+      {moviesArr.length >= cardsNumber && (
+        <button
+          className='movies-card-list__more-movies'
+          onClick={getMoreCards}>
+          Ещё
+        </button>
+      )}
     </div>
   )
 }

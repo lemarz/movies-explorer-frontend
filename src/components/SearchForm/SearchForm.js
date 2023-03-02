@@ -3,7 +3,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 import {useState} from 'react'
 
 function SearchForm() {
-  const [isShortMovies, setIsShortMovies] = useState(true)
+  const [isShortMovies, setIsShortMovies] = useState(false)
   const handleFilterMovies = () => setIsShortMovies(!isShortMovies)
 
   return (

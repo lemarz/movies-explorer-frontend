@@ -1,15 +1,15 @@
-import './Movies.css'
+import './SavedMovies.css'
 import SearchForm from '../SearchForm/SearchForm'
 import MoviesCardList from '../MoviesCardList/MoviesCardList'
 import moviesData from '../../utils/moviesData'
 
-function Movies() {
+function SavedMovies() {
   return (
-    <div className='movies'>
+    <div className='saved-movies'>
       <SearchForm />
-      <MoviesCardList moviesArr={moviesData} />
+      <MoviesCardList moviesArr={moviesData.slice(10, 13)} />
     </div>
   )
 }
 
-export default Movies
+export default SavedMovies

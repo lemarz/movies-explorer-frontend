@@ -165,3 +165,23 @@
     padding-bottom: 4px;
   }
 }
+
+@media screen and (max-width: 450px) {
+  .navigation__menu {
+    min-width: 100%;
+  }
+
+  .navigation__bar_active {
+    right: 13px;
+    top: 7px;
+  }
+
+  .navigation__menu-list {
+    margin: 0;
+    gap: 24px;
+  }
+
+  .navigation__menu-item_burger_profile {
+    bottom: 180px;
+  }
+}
