@@ -8,6 +8,7 @@ import Movies from '../Movies/Movies'
 import Profile from '../Profile/Profile'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
+import NotFound from '../NotFound/NotFound'
 
 function App() {
   const location = useLocation()
@@ -39,6 +40,7 @@ function App() {
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/signup' element={<Register />}></Route>
           <Route path='/signin' element={<Login />}></Route>
+          <Route path='/*' element={<NotFound />}></Route>
         </Routes>
       </div>
       {isComponentActive(footerRoutesArr) && <Footer />}

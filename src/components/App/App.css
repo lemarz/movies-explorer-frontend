@@ -3,6 +3,7 @@
   font-family: Inter, serif;
   color: white;
   font-style: normal;
+  min-height: 100vh;
 }
 
 .link {
