@@ -27,14 +27,14 @@ function App() {
 
   return (
     <div className='app'>
-      <div className='app__page'>
-        {isComponentActive(headerRoutesArr) && (
-          <Header
-            isAuth={isAuth}
-            isBurgerOpened={isBurgerOpened}
-            onClickAccordion={handleClickAccordion}
-          />
-        )}
+      {isComponentActive(headerRoutesArr) && (
+        <Header
+          isAuth={isAuth}
+          isBurgerOpened={isBurgerOpened}
+          onClickAccordion={handleClickAccordion}
+        />
+      )}
+      <div className='app__main'>
         <Routes>
           <Route path='/' element={<Main />}></Route>
           <Route path='/movies' element={<Movies />}></Route>

@@ -12,6 +12,11 @@
   color: #8b8b8b;
 }
 
+.portfolio__list {
+  padding: 0;
+  margin: 0;
+}
+
 .portfolio__project {
   margin: 20px 0 0;
   font-weight: 400;
@@ -21,6 +26,7 @@
   border-bottom: 1px solid #424242;
   padding-bottom: 19px;
   position: relative;
+  list-style: none;
 }
 
 .portfolio__project-span {

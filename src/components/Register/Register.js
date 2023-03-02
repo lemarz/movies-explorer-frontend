@@ -9,7 +9,7 @@ function Register() {
   }
 
   return (
-    <div className='register'>
+    <section className='register'>
       <Form
         title='Добро пожаловать!'
         submitButtonText='Зарегистрироваться'
@@ -31,7 +31,7 @@ function Register() {
           errorText='Что-то пошло не так'
         />
       </Form>
-    </div>
+    </section>
   )
 }
 

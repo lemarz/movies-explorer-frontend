@@ -5,6 +5,7 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
   margin-bottom: 13px;
+  list-style: none;
 }
 
 .movies-card__image {
@@ -34,13 +35,15 @@
 }
 
 .movies-card__like {
+  border: none;
+  padding: 0;
   height: 30px;
   width: 30px;
   cursor: pointer;
   background: no-repeat center url('../../images/like.svg');
   position: absolute;
   right: 16px;
-  top: 6px;
+  top: 5px;
   transition: 0.3s ease;
 }
 

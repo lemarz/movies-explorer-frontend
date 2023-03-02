@@ -5,10 +5,10 @@ import moviesData from '../../utils/moviesData'
 
 function Movies() {
   return (
-    <div className='movies'>
+    <section className='movies'>
       <SearchForm />
       <MoviesCardList moviesArr={moviesData} />
-    </div>
+    </section>
   )
 }
 

@@ -8,7 +8,7 @@ function Login() {
     e.preventDefault()
   }
   return (
-    <div className='login'>
+    <section className='login'>
       <Form
         title='Рады видеть!'
         submitButtonText='Войти'
@@ -24,7 +24,7 @@ function Login() {
         <Input title='E-mail' defaultValue='pochta@yandex.ru' />
         <Input title='Пароль' type='password' />
       </Form>
-    </div>
+    </section>
   )
 }
 

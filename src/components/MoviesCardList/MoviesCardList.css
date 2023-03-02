@@ -8,6 +8,8 @@
 }
 
 .movies-card-list__cards {
+  margin: 0;
+  padding: 0;
   display: flex;
   gap: 24px;
   flex-wrap: wrap;

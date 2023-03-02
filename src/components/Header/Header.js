@@ -5,7 +5,7 @@ import Navigation from '../Navigation/Navigation'
 
 function Header({isAuth, isBurgerOpened, onClickAccordion}) {
   return (
-    <div className='header'>
+    <header className='header'>
       <div className='header__container'>
         <NavLink to='/'>
           <img className='header__logo' src={logo} alt='Логотип' />
@@ -16,7 +16,7 @@ function Header({isAuth, isBurgerOpened, onClickAccordion}) {
           onClickAccordion={onClickAccordion}
         />
       </div>
-    </div>
+    </header>
   )
 }
 

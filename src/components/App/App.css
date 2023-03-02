@@ -5,7 +5,7 @@
   font-style: normal;
   min-height: 100vh;
 }
-.app__page {
+.app__main {
   max-width: 1280px;
   margin: 0 auto;
 }

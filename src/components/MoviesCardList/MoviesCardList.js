@@ -27,7 +27,7 @@ function MoviesCardList({moviesArr}) {
 
   return (
     <div className='movies-card-list'>
-      <div className='movies-card-list__cards'>
+      <ul className='movies-card-list__cards'>
         {moviesArr.map((item, i) => {
           if (i < cardsNumber) {
             return (
@@ -42,7 +42,7 @@ function MoviesCardList({moviesArr}) {
           }
           return null
         })}
-      </div>
+      </ul>
       {moviesArr.length >= cardsNumber && (
         <button
           className='movies-card-list__more-movies'

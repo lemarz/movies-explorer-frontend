@@ -2,7 +2,7 @@ import './Footer.css'
 
 function Footer() {
   return (
-    <div className='footer'>
+    <footer className='footer'>
       <h4 className='footer__about'>
         Учебный проект Яндекс.Практикум х BeatFilm.
       </h4>
@@ -25,7 +25,7 @@ function Footer() {
           Github
         </a>
       </div>
-    </div>
+    </footer>
   )
 }
 

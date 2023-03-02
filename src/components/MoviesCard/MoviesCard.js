@@ -10,7 +10,7 @@ const getFormattedTime = (minutes) => {
 function MoviesCard({movieImageUrl, movieTitle, movieDuration, isSaved}) {
   const [isLiked, setIsLiked] = useState(isSaved)
   return (
-    <div className='movies-card'>
+    <li className='movies-card'>
       <img
         className='movies-card__image'
         alt='Обложка фильма'
@@ -21,15 +21,15 @@ function MoviesCard({movieImageUrl, movieTitle, movieDuration, isSaved}) {
         <p className='movies-card__duration'>
           {getFormattedTime(movieDuration)}
         </p>
-        <div
+        <button
           className={
             isLiked
               ? 'movies-card__like movies-card__like_active'
               : 'movies-card__like'
           }
-          onClick={() => setIsLiked(!isLiked)}></div>
+          onClick={() => setIsLiked(!isLiked)}></button>
       </div>
-    </div>
+    </li>
   )
 }
 
