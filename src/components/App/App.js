@@ -6,6 +6,8 @@ import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
 import Movies from '../Movies/Movies'
 import Profile from '../Profile/Profile'
+import Register from '../Register/Register'
+import Login from '../Login/Login'
 
 function App() {
   const location = useLocation()
@@ -14,21 +16,32 @@ function App() {
 
   const handleClickAccordion = () => setIsBurgerOpened(!isBurgerOpened)
 
+  const headerRoutesArr = ['/', '/movies', '/saved-movies', '/profile']
+  const footerRoutesArr = ['/', '/movies', '/saved-movies']
+
+  const isComponentActive = (routesArr) => {
+    return routesArr.some((route) => route === location.pathname)
+  }
+
   return (
     <div className='App'>
       <div className='page'>
-        <Header
-          isAuth={isAuth}
-          isBurgerOpened={isBurgerOpened}
-          onClickAccordion={handleClickAccordion}
-        />
+        {isComponentActive(headerRoutesArr) && (
+          <Header
+            isAuth={isAuth}
+            isBurgerOpened={isBurgerOpened}
+            onClickAccordion={handleClickAccordion}
+          />
+        )}
         <Routes>
           <Route path='/' element={<Main />}></Route>
           <Route path='/movies' element={<Movies />}></Route>
           <Route path='/profile' element={<Profile />}></Route>
+          <Route path='/signup' element={<Register />}></Route>
+          <Route path='/signin' element={<Login />}></Route>
         </Routes>
       </div>
-      {location.pathname !== '/profile' && <Footer />}
+      {isComponentActive(footerRoutesArr) && <Footer />}
     </div>
   )
 }
