@@ -21,6 +21,7 @@
 Запустить сервер: `npm run start`
 
 ## Ссылки:
-[//]: # (+ [Макет]&#40;&#41;)
++ [Макет](https://disk.yandex.ru/d/XvBdWqkYPqxO-A)
+
 [//]: # (+ [Сайт]&#40;&#41;)
 + [Репозиторий с бэкендом](https://github.com/lemarz/movies-explorer-api)

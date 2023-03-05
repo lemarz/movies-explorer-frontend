@@ -1,0 +1,24 @@
+.login {
+  min-height: 100vh;
+  background-color: #202020;
+}
+
+.login__assist {
+  margin: 16px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #8b8b8b;
+}
+
+.login__assist-link {
+  color: #4285f4;
+}
+
+@media screen and (max-width: 450px) {
+  .login__assist {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
