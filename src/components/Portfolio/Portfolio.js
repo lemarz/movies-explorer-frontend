@@ -15,9 +15,8 @@ function Portfolio() {
       <ul className='portfolio__list'>
         {portfolioProjects.map((item, i) => {
           return (
-            <li className='portfolio__project'>
+            <li key={i} className='portfolio__project'>
               <a
-                key={i}
                 className='link'
                 href={item.src}
                 target={'_blank'}

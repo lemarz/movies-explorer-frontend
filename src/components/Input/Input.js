@@ -1,6 +1,6 @@
 import './Input.css'
 
-function Input({title, type, placeholder, defaultValue, errorText}) {
+function Input({title, type, placeholder, defaultValue, errorText, onChange}) {
   return (
     <>
       <p className='input__title'>{title}</p>
@@ -9,6 +9,7 @@ function Input({title, type, placeholder, defaultValue, errorText}) {
         type={type}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        onChange={onChange}
       />
       <span className='input__error'>{errorText}</span>
     </>
