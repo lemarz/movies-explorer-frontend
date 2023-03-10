@@ -2,9 +2,10 @@ import './Login.css'
 import Form from '../Form/Form'
 import Input from '../Input/Input'
 import {NavLink, useNavigate} from 'react-router-dom'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import mainApi from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
+import isEmail from 'validator/lib/isEmail'
 
 function Login({setIsAuth}) {
   const navigate = useNavigate()
@@ -12,10 +13,30 @@ function Login({setIsAuth}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+
+  const [isValid, setIsValid] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
-  const handleChangeEmail = (e) => setEmail(e.target.value)
-  const handleChangePassword = (e) => setPassword(e.target.value)
+  useEffect(() => {
+    isEmail(email) && password.length >= 8
+      ? setIsValid(true)
+      : setIsValid(false)
+  }, [email, password])
+
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value)
+    isEmail(e.target.value)
+      ? setEmailError('')
+      : setEmailError('Некорректый адрес почты.')
+  }
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value)
+    e.target.value.length >= 8
+      ? setPasswordError('')
+      : setPasswordError('Пароль слишком короткий.')
+  }
 
   const closeTooltip = () => setIsTooltipOpen(false)
 
@@ -30,11 +51,13 @@ function Login({setIsAuth}) {
       .catch((err) => {
         console.error(err)
         setIsTooltipOpen(true)
+        document.forms[0].reset()
       })
   }
   return (
     <section className='login'>
       <Form
+        isButtonDisabled={!isValid}
         title='Рады видеть!'
         submitButtonText='Войти'
         onSubmit={handleSubmitLogin}
@@ -46,8 +69,17 @@ function Login({setIsAuth}) {
             </NavLink>
           </p>
         }>
-        <Input title='E-mail' onChange={handleChangeEmail} />
-        <Input title='Пароль' type='password' onChange={handleChangePassword} />
+        <Input
+          title='E-mail'
+          onChange={handleChangeEmail}
+          errorText={emailError}
+        />
+        <Input
+          title='Пароль'
+          type='password'
+          onChange={handleChangePassword}
+          errorText={passwordError}
+        />
       </Form>
       <InfoTooltip
         isOpen={isTooltipOpen}

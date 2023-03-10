@@ -1,7 +1,14 @@
 import './Form.css'
 import logo from '../../images/logo.svg'
 
-function Form({children, title, submitButtonText, onSubmit, formAssist}) {
+function Form({
+  children,
+  title,
+  submitButtonText,
+  onSubmit,
+  formAssist,
+  isButtonDisabled,
+}) {
   const onFormSubmit = (e) => {
     e.preventDefault()
     onSubmit()
@@ -11,12 +18,14 @@ function Form({children, title, submitButtonText, onSubmit, formAssist}) {
     <div className='form'>
       <img className='form__logo' src={logo} alt='Логотип' />
       <h2 className='form__title'>{title}</h2>
-      <form className='form__form'>
+      <form className='form__form' onSubmit={onFormSubmit}>
         {children}
         <button
-          className='form__submit-button'
+          className={`form__submit-button ${
+            isButtonDisabled && 'form__submit-button_disabled'
+          }`}
           type='submit'
-          onClick={onFormSubmit}>
+          disabled={isButtonDisabled}>
           {submitButtonText}
         </button>
         {formAssist}
