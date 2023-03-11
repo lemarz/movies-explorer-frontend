@@ -36,6 +36,7 @@ function MoviesCardList({moviesArr}) {
                 movieTitle={item.nameRU}
                 movieImageUrl={`https://api.nomoreparties.co${item.image.url}`}
                 movieDuration={item.duration}
+                trailerLink={item.trailerLink}
                 isSaved={Math.floor(Math.random() * 2)}
               />
             )

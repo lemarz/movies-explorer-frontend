@@ -7,15 +7,27 @@ const getFormattedTime = (minutes) => {
   return `${hours}ч${remainingMinutes === 0 ? '' : ` ${remainingMinutes}м`}`
 }
 
-function MoviesCard({movieImageUrl, movieTitle, movieDuration, isSaved}) {
+function MoviesCard({
+  movieImageUrl,
+  movieTitle,
+  movieDuration,
+  isSaved,
+  trailerLink,
+}) {
   const [isLiked, setIsLiked] = useState(isSaved)
   return (
     <li className='movies-card'>
-      <img
-        className='movies-card__image'
-        alt='Обложка фильма'
-        src={movieImageUrl}
-      />
+      <a
+        className='movies-card__link'
+        href={trailerLink}
+        target='_blank'
+        rel='noreferrer'>
+        <img
+          className='movies-card__image'
+          alt='Обложка фильма'
+          src={movieImageUrl}
+        />
+      </a>
       <div className='movies-card__about'>
         <p className='movies-card__title'>{movieTitle}</p>
         <p className='movies-card__duration'>
