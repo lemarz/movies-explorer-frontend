@@ -47,6 +47,17 @@ class MainApi {
       headers: this._getHeaders(),
     }).then(this._handleResponse)
   }
+
+  setUserInfo(name, email) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._getHeaders(),
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    }).then(this._handleResponse)
+  }
 }
 
 const mainApi = new MainApi()

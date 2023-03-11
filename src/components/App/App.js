@@ -28,13 +28,24 @@ function App() {
       token &&
         mainApi
           .getUserInfo()
-          .then((res) => {
+          .then((userInfo) => {
             setIsAuth(true)
-            setCurrentUser(res)
+            setCurrentUser(userInfo)
           })
           .catch(console.error)
     }
   }, [])
+
+  useEffect(() => {
+    if (isAuth) {
+      mainApi
+        .getUserInfo()
+        .then((userInfo) => {
+          setCurrentUser(userInfo)
+        })
+        .catch(console.error)
+    }
+  }, [isAuth])
 
   const handleClickAccordion = () => setIsBurgerOpened(!isBurgerOpened)
   const isComponentActive = (routesArr) => {

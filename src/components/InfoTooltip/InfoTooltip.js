@@ -2,14 +2,18 @@ import './InfoTooltip.css'
 import failureImg from '../../images/fail.svg'
 import successImg from '../../images/success.svg'
 
-function InfoTooltip({isSuccess, isOpen, onClick}) {
+function InfoTooltip({isSuccess, isOpen, onClick, successMessage}) {
   return (
     <div className={`popup ${isOpen ? 'popup_open' : ''}`}>
       <div className='popup__container'>
         {isSuccess ? (
           <>
             <img className='popup__image' src={successImg} />
-            <p className='popup__text'>Вы успешно зарегистрировались!</p>
+            <p className='popup__text'>
+              {successMessage
+                ? successMessage
+                : 'Вы успешно зарегистрировались!'}
+            </p>
           </>
         ) : (
           <>
