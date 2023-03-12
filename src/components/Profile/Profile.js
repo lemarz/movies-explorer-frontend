@@ -1,13 +1,11 @@
 import './Profile.css'
 import {useContext, useState} from 'react'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
-import {useNavigate} from 'react-router-dom'
 import isEmail from 'validator/lib/isEmail'
 import mainApi from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 
-function Profile({setIsAuth}) {
-  const navigate = useNavigate()
+function Profile({logOut}) {
   const currentUser = useContext(CurrentUserContext)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -48,11 +46,6 @@ function Profile({setIsAuth}) {
     setIsEditMode(false)
   }
 
-  const logOut = () => {
-    setIsAuth(false)
-    localStorage.removeItem('jwt')
-    navigate('/signin')
-  }
   return (
     <section className='profile'>
       <h2 className='profile__title'>{`Привет, ${currentUser.name}!`}</h2>
@@ -98,7 +91,7 @@ function Profile({setIsAuth}) {
         isOpen={isTooltipOpen}
         onClick={() => setIsTooltipOpen(false)}
         isSuccess={true}
-        successMessage='Данные о профиле успешно изменены!'
+        message='Данные о профиле успешно изменены!'
       />
     </section>
   )

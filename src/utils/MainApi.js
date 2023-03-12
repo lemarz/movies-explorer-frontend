@@ -1,6 +1,6 @@
 class MainApi {
   constructor() {
-    this._baseUrl = 'http://localhost:3000'
+    this._baseUrl = 'http://movies-explorer.space'
     this._headers = {'Content-Type': 'application/json'}
   }
 
@@ -56,6 +56,43 @@ class MainApi {
         name,
         email,
       }),
+    }).then(this._handleResponse)
+  }
+
+  getUserMovies() {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'GET',
+      headers: this._getHeaders(),
+      credentials: 'include',
+    }).then(this._handleResponse)
+  }
+
+  createMovie(movieData) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: this._getHeaders(),
+      body: JSON.stringify({
+        country: movieData.country,
+        director: movieData.director,
+        duration: movieData.duration,
+        year: movieData.year,
+        description: movieData.description,
+        image: movieData.image,
+        trailerLink: movieData.trailerLink,
+        thumbnail: movieData.thumbnail,
+        movieId: movieData.movieId,
+        nameRU: movieData.nameRU,
+        nameEN: movieData.nameEN,
+      }),
+      credentials: 'include',
+    }).then(this._handleResponse)
+  }
+
+  deleteMovie(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: this._getHeaders(),
+      credentials: 'include',
     }).then(this._handleResponse)
   }
 }

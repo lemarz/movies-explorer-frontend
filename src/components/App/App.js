@@ -1,7 +1,7 @@
 import './App.css'
 import Header from '../Header/Header'
 import {useEffect, useState} from 'react'
-import {Route, Routes, useLocation} from 'react-router-dom'
+import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
 import Movies from '../Movies/Movies'
@@ -13,14 +13,20 @@ import SavedMovies from '../SavedMovies/SavedMovies'
 import mainApi from '../../utils/MainApi'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
+import InfoTooltip from '../InfoTooltip/InfoTooltip'
 const headerRoutesArr = ['/', '/movies', '/saved-movies', '/profile']
 const footerRoutesArr = ['/', '/movies', '/saved-movies']
 
 function App() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem('jwt'))
   const [isBurgerOpened, setIsBurgerOpened] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
+  const [isShortMovie, setIsShortMovie] = useState(false)
+  const [savedMoviesList, setSavedMoviesList] = useState([])
+  const [isLiked, setIsLiked] = useState(false)
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
   useEffect(() => {
     if (!isAuth) {
@@ -32,10 +38,9 @@ function App() {
             setIsAuth(true)
             setCurrentUser(userInfo)
           })
-          .catch(console.error)
+          .catch(() => setIsTooltipOpen(true))
     }
-  }, [])
-
+  }, [isAuth])
   useEffect(() => {
     if (isAuth) {
       mainApi
@@ -43,11 +48,62 @@ function App() {
         .then((userInfo) => {
           setCurrentUser(userInfo)
         })
-        .catch(console.error)
+        .catch((err) => {
+          console.error(err)
+          setIsTooltipOpen(true)
+          setIsAuth(false)
+          err === 'Ошибка: 401' && localStorage.removeItem('jwt')
+        })
     }
   }, [isAuth])
+  useEffect(() => {
+    mainApi
+      .getUserMovies()
+      .then((res) => setSavedMoviesList(res))
+      .catch(console.error)
+
+    const isShortMovie = localStorage.getItem('isShortMovie')
+    isShortMovie && setIsShortMovie(!!isShortMovie)
+  }, [])
+
+  const handleSaveMovie = (movie) => {
+    mainApi
+      .createMovie(movie)
+      .then((newMovie) => {
+        setSavedMoviesList([...savedMoviesList, newMovie])
+      })
+      .catch(() => setIsTooltipOpen(true))
+    setIsLiked(!isLiked)
+  }
+
+  const handleDeleteMovie = (movie) => {
+    const id =
+      movie._id ||
+      savedMoviesList.find((item) => item.movieId === movie.movieId)._id
+
+    mainApi
+      .deleteMovie(id)
+      .then(() => {
+        setSavedMoviesList((state) => state.filter((item) => item._id !== id))
+      })
+      .catch(() => setIsTooltipOpen(true))
+
+    setIsLiked(!isLiked)
+  }
 
   const handleClickAccordion = () => setIsBurgerOpened(!isBurgerOpened)
+  const handleFilterMovies = () => {
+    localStorage.setItem('isShortMovie', isShortMovie ? '' : 'true')
+    setIsShortMovie(!isShortMovie)
+  }
+  const handleLogOut = () => {
+    setIsAuth(false)
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('requestValue')
+    localStorage.removeItem('isShortMovie')
+    localStorage.removeItem('moviesData')
+    navigate('/signin')
+  }
   const isComponentActive = (routesArr) => {
     return routesArr.some((route) => route === location.pathname)
   }
@@ -66,11 +122,33 @@ function App() {
           <Routes>
             <Route path='/' element={<Main />} />
             <Route element={<ProtectedRoute isAuth={isAuth} />}>
-              <Route path='/movies' element={<Movies />} />
-              <Route path='/saved-movies' element={<SavedMovies />} />
+              <Route
+                path='/movies'
+                element={
+                  <Movies
+                    isShortMovie={isShortMovie}
+                    handleFilterMovies={handleFilterMovies}
+                    onDislike={handleDeleteMovie}
+                    onLike={handleSaveMovie}
+                    savedMoviesList={savedMoviesList}
+                  />
+                }
+              />
+              <Route
+                path='/saved-movies'
+                element={
+                  <SavedMovies
+                    isShortMovie={isShortMovie}
+                    handleFilterMovies={handleFilterMovies}
+                    savedMoviesList={savedMoviesList}
+                    onDislike={handleDeleteMovie}
+                    onLike={handleSaveMovie}
+                  />
+                }
+              />
               <Route
                 path='/profile'
-                element={<Profile setIsAuth={setIsAuth} />}
+                element={<Profile logOut={handleLogOut} />}
               />
             </Route>
 
@@ -80,6 +158,11 @@ function App() {
           </Routes>
         </div>
         {isComponentActive(footerRoutesArr) && <Footer />}
+        <InfoTooltip
+          isOpen={isTooltipOpen}
+          onClick={() => setIsTooltipOpen(false)}
+          message='Во время запроса произошла ошибка. Подождите и попробуйте ещё раз'
+        />
       </div>
     </CurrentUserContext.Provider>
   )
