@@ -12,8 +12,8 @@ function Profile({setIsAuth}) {
   const [isEditMode, setIsEditMode] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
-  const [name, setName] = useState(currentUser.name)
-  const [email, setEmail] = useState(currentUser.email)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [nameError, setNameError] = useState('')
   const [emailError, setEmailError] = useState('')
 
@@ -29,6 +29,12 @@ function Profile({setIsAuth}) {
     isEmail(e.target.value)
       ? setEmailError('')
       : setEmailError('Некорректый адрес почты.')
+  }
+
+  const onEditUserInfo = () => {
+    setName(currentUser.name)
+    setEmail(currentUser.email)
+    setIsEditMode(true)
   }
 
   const editUserInfo = (e) => {
@@ -81,11 +87,7 @@ function Profile({setIsAuth}) {
           Сохранить
         </button>
       ) : (
-        <button
-          className='profile__button link'
-          onClick={() => {
-            setIsEditMode(true)
-          }}>
+        <button className='profile__button link' onClick={onEditUserInfo}>
           Редактировать
         </button>
       )}

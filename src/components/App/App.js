@@ -18,7 +18,7 @@ const footerRoutesArr = ['/', '/movies', '/saved-movies']
 
 function App() {
   const location = useLocation()
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem('jwt'))
   const [isBurgerOpened, setIsBurgerOpened] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
 

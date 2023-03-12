@@ -8,7 +8,7 @@ function InfoTooltip({isSuccess, isOpen, onClick, successMessage}) {
       <div className='popup__container'>
         {isSuccess ? (
           <>
-            <img className='popup__image' src={successImg} />
+            <img className='popup__image' src={successImg} alt='Успех' />
             <p className='popup__text'>
               {successMessage
                 ? successMessage
@@ -17,7 +17,7 @@ function InfoTooltip({isSuccess, isOpen, onClick, successMessage}) {
           </>
         ) : (
           <>
-            <img className='popup__image' src={failureImg} />
+            <img className='popup__image' src={failureImg} alt='Провал' />
             <p className='popup__text'>
               Что-то пошло не так! Попробуйте ещё раз.
             </p>
