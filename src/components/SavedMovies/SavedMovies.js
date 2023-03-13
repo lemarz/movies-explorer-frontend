@@ -1,13 +1,27 @@
 import './SavedMovies.css'
 import SearchForm from '../SearchForm/SearchForm'
 import MoviesCardList from '../MoviesCardList/MoviesCardList'
-import moviesData from '../../utils/moviesData'
 
-function SavedMovies() {
+function SavedMovies({
+  isShortMovie,
+  handleFilterMovies,
+  savedMoviesList,
+  onLike,
+  onDislike,
+}) {
   return (
     <section className='saved-movies'>
-      <SearchForm />
-      <MoviesCardList moviesArr={moviesData.slice(10, 13)} />
+      <SearchForm
+        isShortMovies={isShortMovie}
+        handleFilterMovies={handleFilterMovies}
+      />
+      <MoviesCardList
+        moviesArr={savedMoviesList}
+        isShortMovie={isShortMovie}
+        onDislike={onDislike}
+        onLike={onLike}
+        savedMoviesList={savedMoviesList}
+      />
     </section>
   )
 }

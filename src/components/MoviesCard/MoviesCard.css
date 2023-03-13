@@ -8,6 +8,9 @@
   list-style: none;
 }
 
+.movies-card__link {
+}
+
 .movies-card__image {
   height: 203px;
   width: 364px;
