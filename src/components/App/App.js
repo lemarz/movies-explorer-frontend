@@ -29,19 +29,6 @@ function App() {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
   useEffect(() => {
-    if (!isAuth) {
-      const token = localStorage.getItem('jwt')
-      token &&
-        mainApi
-          .getUserInfo()
-          .then((userInfo) => {
-            setIsAuth(true)
-            setCurrentUser(userInfo)
-          })
-          .catch(() => setIsTooltipOpen(true))
-    }
-  }, [isAuth])
-  useEffect(() => {
     if (isAuth) {
       mainApi
         .getUserInfo()
@@ -54,14 +41,25 @@ function App() {
           setIsAuth(false)
           err === 'Ошибка: 401' && localStorage.removeItem('jwt')
         })
+
+      mainApi
+        .getUserMovies()
+        .then((res) => setSavedMoviesList(res))
+        .catch(console.error)
+    } else {
+      const token = localStorage.getItem('jwt')
+      token &&
+        mainApi
+          .getUserInfo()
+          .then((userInfo) => {
+            setIsAuth(true)
+            setCurrentUser(userInfo)
+          })
+          .catch(() => setIsTooltipOpen(true))
     }
   }, [isAuth])
-  useEffect(() => {
-    mainApi
-      .getUserMovies()
-      .then((res) => setSavedMoviesList(res))
-      .catch(console.error)
 
+  useEffect(() => {
     const isShortMovie = localStorage.getItem('isShortMovie')
     isShortMovie && setIsShortMovie(!!isShortMovie)
   }, [])
@@ -102,7 +100,9 @@ function App() {
     localStorage.removeItem('requestValue')
     localStorage.removeItem('isShortMovie')
     localStorage.removeItem('moviesData')
-    navigate('/signin')
+    setIsShortMovie(false)
+    setCurrentUser({})
+    navigate('/')
   }
   const isComponentActive = (routesArr) => {
     return routesArr.some((route) => route === location.pathname)
@@ -121,6 +121,7 @@ function App() {
         <div className='app__main'>
           <Routes>
             <Route path='/' element={<Main />} />
+
             <Route element={<ProtectedRoute isAuth={isAuth} />}>
               <Route
                 path='/movies'
@@ -138,8 +139,6 @@ function App() {
                 path='/saved-movies'
                 element={
                   <SavedMovies
-                    isShortMovie={isShortMovie}
-                    handleFilterMovies={handleFilterMovies}
                     savedMoviesList={savedMoviesList}
                     onDislike={handleDeleteMovie}
                     onLike={handleSaveMovie}
@@ -152,8 +151,14 @@ function App() {
               />
             </Route>
 
-            <Route path='/signup' element={<Register />} />
-            <Route path='/signin' element={<Login setIsAuth={setIsAuth} />} />
+            <Route element={<ProtectedRoute isAuth={!isAuth} />}>
+              <Route
+                path='/signup'
+                element={<Register setIsAuth={setIsAuth} />}
+              />
+              <Route path='/signin' element={<Login setIsAuth={setIsAuth} />} />
+            </Route>
+
             <Route path='/*' element={<NotFound />} />
           </Routes>
         </div>

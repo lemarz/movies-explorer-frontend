@@ -42,11 +42,11 @@ function Login({setIsAuth}) {
 
   const handleSubmitLogin = () => {
     mainApi
-      .authorization(email, password)
+      .authorization(email.toLowerCase(), password)
       .then((res) => {
         setIsAuth(true)
         localStorage.setItem('jwt', res.token)
-        navigate('/')
+        navigate('/movies')
       })
       .catch((err) => {
         console.error(err)

@@ -7,7 +7,7 @@ import mainApi from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import isEmail from 'validator/lib/isEmail'
 
-function Register() {
+function Register({setIsAuth}) {
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -20,6 +20,7 @@ function Register() {
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false)
+  const [tooltipMessage, setTooltipMessage] = useState()
 
   useEffect(() => {
     isEmail(email) && password.length >= 8
@@ -29,18 +30,34 @@ function Register() {
 
   const closeTooltip = () => {
     setIsTooltipOpen(false)
-    isRegisterSuccess && navigate('/signin')
+    if (isRegisterSuccess) {
+      setIsAuth(true)
+      navigate('/movies')
+    }
   }
 
   const handleSubmitRegister = () => {
     mainApi
-      .register(name, email, password)
+      .register(name, email.toLowerCase(), password)
       .then(() => {
-        setIsRegisterSuccess(true)
-        setIsTooltipOpen(true)
+        mainApi
+          .authorization(email.toLowerCase(), password)
+          .then((res) => {
+            setIsRegisterSuccess(true)
+            localStorage.setItem('jwt', res.token)
+            setIsTooltipOpen(true)
+          })
+          .catch((err) => {
+            console.error(err)
+            setIsTooltipOpen(true)
+            setIsRegisterSuccess(false)
+          })
       })
       .catch((err) => {
         console.error(err)
+        if (err === 'Ошибка: 409') {
+          setTooltipMessage('Такой пользователь уже существует')
+        }
         setIsTooltipOpen(true)
         setIsRegisterSuccess(false)
       })
@@ -99,6 +116,7 @@ function Register() {
         isOpen={isTooltipOpen}
         onClick={closeTooltip}
         isSuccess={isRegisterSuccess}
+        message={tooltipMessage}
       />
     </section>
   )

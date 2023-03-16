@@ -38,10 +38,10 @@ function MoviesCard({movie, isLiked, onLike, onDislike}) {
         )}
         {location.pathname === '/saved-movies' && (
           <button
-            className={'movies-card__like movies-card__like_active'}
-            onClick={handleDislikeMovie}>
-            <div className='test'></div>
-          </button>
+            className={
+              'movies-card__like movies-card__like_active movies-card__like_delete'
+            }
+            onClick={handleDislikeMovie}></button>
         )}
       </div>
     </li>

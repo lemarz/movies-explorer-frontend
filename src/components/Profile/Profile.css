@@ -79,6 +79,11 @@
   color: #2be080;
 }
 
+.profile__button_disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .profile__button:last-of-type {
   margin-top: 6px;
   color: #ee3465;

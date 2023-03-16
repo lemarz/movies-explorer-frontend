@@ -8,24 +8,23 @@ function SearchForm({
   onChangeRequest,
   onSubmit,
   defaultValue,
+  isRequired,
 }) {
   return (
     <div className='search-form'>
       <form className='search-form__form'>
         <input
           className='search-form__input'
-          required={true}
+          required={isRequired}
           placeholder='Фильм'
-          onChange={onChangeRequest}
+          onInput={onChangeRequest}
           defaultValue={defaultValue}
         />
         <button
-          className={
-            request
-              ? 'search-form__button'
-              : 'search-form__button search-form__button_disabled'
-          }
-          disabled={!request}
+          className={`search-form__button ${
+            !request && isRequired && 'search-form__button_disabled'
+          } `}
+          disabled={!request && isRequired}
           onClick={onSubmit}>
           Найти
         </button>

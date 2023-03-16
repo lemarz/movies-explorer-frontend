@@ -14,6 +14,8 @@ function Movies({
   savedMoviesList,
 }) {
   const [moviesList, setMoviesList] = useState([])
+  const [searchQuery, setSearchQuery] = useState(``)
+  const [isPreloaderActive, setIsPreloaderActive] = useState(false)
 
   useEffect(() => {
     const moviesData = localStorage.getItem('moviesData')
@@ -23,10 +25,7 @@ function Movies({
     requestInputValue && setSearchQuery(requestInputValue)
   }, [])
 
-  const [searchQuery, setSearchQuery] = useState(``)
   const handleChangeRequest = (e) => setSearchQuery(e.target.value)
-
-  const [isPreloaderActive, setIsPreloaderActive] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -57,6 +56,7 @@ function Movies({
         onSubmit={handleSubmit}
         onChangeRequest={handleChangeRequest}
         defaultValue={searchQuery}
+        isRequired={true}
       />
       {isPreloaderActive ? (
         <Preloader />

@@ -50,6 +50,10 @@
   transition: 0.3s ease;
 }
 
+.movies-card__like_delete:hover {
+  background-image: url('../../images/close-icon.svg');
+}
+
 .movies-card__like:hover {
   transition: 0.3s ease;
   opacity: 0.8;

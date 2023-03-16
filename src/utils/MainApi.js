@@ -1,6 +1,6 @@
 class MainApi {
   constructor() {
-    this._baseUrl = 'http://movies-explorer.space'
+    this._baseUrl = 'https://api.movies-finder.nomoredomainsclub.ru'
     this._headers = {'Content-Type': 'application/json'}
   }
 

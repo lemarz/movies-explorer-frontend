@@ -1,5 +1,5 @@
 import './Profile.css'
-import {useContext, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 import isEmail from 'validator/lib/isEmail'
 import mainApi from '../../utils/MainApi'
@@ -9,11 +9,21 @@ function Profile({logOut}) {
   const currentUser = useContext(CurrentUserContext)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [tooltipMessage, setTooltipMessage] = useState('')
+  const [isSaveButtonActive, setIsSaveButtonActive] = useState(false)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [nameError, setNameError] = useState('')
   const [emailError, setEmailError] = useState('')
+
+  useEffect(() => {
+    setIsSaveButtonActive(
+      name !== currentUser.name ||
+        email.toLowerCase() !== currentUser.email.toLowerCase()
+    )
+  }, [name, email])
 
   const handleChangeName = (e) => {
     setName(e.target.value)
@@ -37,12 +47,29 @@ function Profile({logOut}) {
 
   const editUserInfo = (e) => {
     e.preventDefault()
-    mainApi
-      .setUserInfo(name, email)
-      .then(() => {
-        setIsTooltipOpen(true)
-      })
-      .catch(console.error)
+    if (
+      name !== currentUser.name ||
+      email !== currentUser.email.toLowerCase()
+    ) {
+      mainApi
+        .setUserInfo(name, email.toLowerCase())
+        .then(() => {
+          currentUser.name = name
+          currentUser.email = email.toLowerCase()
+          setIsSuccess(true)
+          setTooltipMessage('Данные о профиле успешно изменены!')
+          setIsTooltipOpen(true)
+          setIsSaveButtonActive(false)
+        })
+        .catch((err) => {
+          console.error(err)
+          if (err === 'Ошибка: 409') {
+            setTooltipMessage('Такой пользователь уже существует.')
+          }
+          setIsSuccess(false)
+          setIsTooltipOpen(true)
+        })
+    }
     setIsEditMode(false)
   }
 
@@ -74,9 +101,12 @@ function Profile({logOut}) {
       </form>
       {isEditMode ? (
         <button
-          className='profile__button profile__button_save link'
+          className={`profile__button profile__button_save  ${
+            !isSaveButtonActive ? 'profile__button_disabled' : 'link'
+          }`}
           type='submit'
-          onClick={editUserInfo}>
+          onClick={editUserInfo}
+          disabled={!isSaveButtonActive}>
           Сохранить
         </button>
       ) : (
@@ -90,8 +120,8 @@ function Profile({logOut}) {
       <InfoTooltip
         isOpen={isTooltipOpen}
         onClick={() => setIsTooltipOpen(false)}
-        isSuccess={true}
-        message='Данные о профиле успешно изменены!'
+        isSuccess={isSuccess}
+        message={tooltipMessage}
       />
     </section>
   )

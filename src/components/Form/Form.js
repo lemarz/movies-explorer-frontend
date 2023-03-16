@@ -1,5 +1,6 @@
 import './Form.css'
 import logo from '../../images/logo.svg'
+import {NavLink} from 'react-router-dom'
 
 function Form({
   children,
@@ -16,7 +17,9 @@ function Form({
 
   return (
     <div className='form'>
-      <img className='form__logo' src={logo} alt='Логотип' />
+      <NavLink to='/'>
+        <img className='form__logo' src={logo} alt='Логотип' />
+      </NavLink>
       <h2 className='form__title'>{title}</h2>
       <form className='form__form' onSubmit={onFormSubmit}>
         {children}

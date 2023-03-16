@@ -56,13 +56,22 @@ function MoviesCardList({
             })
           : 'Ничего не найдено'}
       </ul>
-      {moviesArr.length >= cardsNumber && (
-        <button
-          className='movies-card-list__more-movies'
-          onClick={getMoreCards}>
-          Ещё
-        </button>
-      )}
+      {isShortMovie
+        ? moviesArr.filter((movie) => movie.duration <= 40).length >
+            cardsNumber && (
+            <button
+              className='movies-card-list__more-movies'
+              onClick={getMoreCards}>
+              Ещё
+            </button>
+          )
+        : moviesArr.length > cardsNumber && (
+            <button
+              className='movies-card-list__more-movies'
+              onClick={getMoreCards}>
+              Ещё
+            </button>
+          )}
     </div>
   )
 }
