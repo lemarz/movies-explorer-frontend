@@ -1,33 +1,48 @@
 import './MoviesCard.css'
-import {useState} from 'react'
+import {useLocation} from 'react-router-dom'
+import {getFormattedTime} from '../../utils/utils'
 
-const getFormattedTime = (minutes) => {
-  const hours = Math.floor(minutes / 60)
-  const remainingMinutes = minutes % 60
-  return `${hours}ч${remainingMinutes === 0 ? '' : ` ${remainingMinutes}м`}`
-}
+function MoviesCard({movie, isLiked, onLike, onDislike}) {
+  const location = useLocation()
 
-function MoviesCard({movieImageUrl, movieTitle, movieDuration, isSaved}) {
-  const [isLiked, setIsLiked] = useState(isSaved)
+  const handleLikeMovie = () => onLike(movie)
+  const handleDislikeMovie = () => onDislike(movie)
+
   return (
     <li className='movies-card'>
-      <img
-        className='movies-card__image'
-        alt='Обложка фильма'
-        src={movieImageUrl}
-      />
+      <a
+        className='movies-card__link'
+        href={movie.trailerLink}
+        target='_blank'
+        rel='noreferrer'>
+        <img
+          className='movies-card__image'
+          alt='Обложка фильма'
+          src={movie.image}
+        />
+      </a>
       <div className='movies-card__about'>
-        <p className='movies-card__title'>{movieTitle}</p>
+        <p className='movies-card__title'>{movie.nameRU}</p>
         <p className='movies-card__duration'>
-          {getFormattedTime(movieDuration)}
+          {getFormattedTime(movie.duration)}
         </p>
-        <button
-          className={
-            isLiked
-              ? 'movies-card__like movies-card__like_active'
-              : 'movies-card__like'
-          }
-          onClick={() => setIsLiked(!isLiked)}></button>
+        {location.pathname === '/movies' && (
+          <button
+            className={
+              isLiked
+                ? 'movies-card__like movies-card__like_active'
+                : 'movies-card__like'
+            }
+            onClick={isLiked ? handleDislikeMovie : handleLikeMovie}
+          />
+        )}
+        {location.pathname === '/saved-movies' && (
+          <button
+            className={
+              'movies-card__like movies-card__like_active movies-card__like_delete'
+            }
+            onClick={handleDislikeMovie}></button>
+        )}
       </div>
     </li>
   )

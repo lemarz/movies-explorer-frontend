@@ -1,7 +1,7 @@
 import './App.css'
 import Header from '../Header/Header'
-import {useState} from 'react'
-import {Route, Routes, useLocation} from 'react-router-dom'
+import {useEffect, useState} from 'react'
+import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
 import Movies from '../Movies/Movies'
@@ -10,43 +10,166 @@ import Register from '../Register/Register'
 import Login from '../Login/Login'
 import NotFound from '../NotFound/NotFound'
 import SavedMovies from '../SavedMovies/SavedMovies'
+import mainApi from '../../utils/MainApi'
+import CurrentUserContext from '../../contexts/CurrentUserContext'
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
+import InfoTooltip from '../InfoTooltip/InfoTooltip'
+const headerRoutesArr = ['/', '/movies', '/saved-movies', '/profile']
+const footerRoutesArr = ['/', '/movies', '/saved-movies']
 
 function App() {
   const location = useLocation()
-  const [isAuth, setIsAuth] = useState(true)
+  const navigate = useNavigate()
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem('jwt'))
   const [isBurgerOpened, setIsBurgerOpened] = useState(false)
+  const [currentUser, setCurrentUser] = useState({})
+  const [isShortMovie, setIsShortMovie] = useState(false)
+  const [savedMoviesList, setSavedMoviesList] = useState([])
+  const [isLiked, setIsLiked] = useState(false)
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+
+  useEffect(() => {
+    if (isAuth) {
+      mainApi
+        .getUserInfo()
+        .then((userInfo) => {
+          setCurrentUser(userInfo)
+        })
+        .catch((err) => {
+          console.error(err)
+          setIsTooltipOpen(true)
+          setIsAuth(false)
+          err === 'Ошибка: 401' && localStorage.removeItem('jwt')
+        })
+
+      mainApi
+        .getUserMovies()
+        .then((res) => setSavedMoviesList(res))
+        .catch(console.error)
+    } else {
+      const token = localStorage.getItem('jwt')
+      token &&
+        mainApi
+          .getUserInfo()
+          .then((userInfo) => {
+            setIsAuth(true)
+            setCurrentUser(userInfo)
+          })
+          .catch(() => setIsTooltipOpen(true))
+    }
+  }, [isAuth])
+
+  useEffect(() => {
+    const isShortMovie = localStorage.getItem('isShortMovie')
+    isShortMovie && setIsShortMovie(!!isShortMovie)
+  }, [])
+
+  const handleSaveMovie = (movie) => {
+    mainApi
+      .createMovie(movie)
+      .then((newMovie) => {
+        setSavedMoviesList([...savedMoviesList, newMovie])
+      })
+      .catch(() => setIsTooltipOpen(true))
+    setIsLiked(!isLiked)
+  }
+
+  const handleDeleteMovie = (movie) => {
+    const id =
+      movie._id ||
+      savedMoviesList.find((item) => item.movieId === movie.movieId)._id
+
+    mainApi
+      .deleteMovie(id)
+      .then(() => {
+        setSavedMoviesList((state) => state.filter((item) => item._id !== id))
+      })
+      .catch(() => setIsTooltipOpen(true))
+
+    setIsLiked(!isLiked)
+  }
 
   const handleClickAccordion = () => setIsBurgerOpened(!isBurgerOpened)
-
-  const headerRoutesArr = ['/', '/movies', '/saved-movies', '/profile']
-  const footerRoutesArr = ['/', '/movies', '/saved-movies']
-
+  const handleFilterMovies = () => {
+    localStorage.setItem('isShortMovie', isShortMovie ? '' : 'true')
+    setIsShortMovie(!isShortMovie)
+  }
+  const handleLogOut = () => {
+    setIsAuth(false)
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('requestValue')
+    localStorage.removeItem('isShortMovie')
+    localStorage.removeItem('moviesData')
+    setIsShortMovie(false)
+    setCurrentUser({})
+    navigate('/')
+  }
   const isComponentActive = (routesArr) => {
     return routesArr.some((route) => route === location.pathname)
   }
 
   return (
-    <div className='app'>
-      {isComponentActive(headerRoutesArr) && (
-        <Header
-          isAuth={isAuth}
-          isBurgerOpened={isBurgerOpened}
-          onClickAccordion={handleClickAccordion}
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className='app'>
+        {isComponentActive(headerRoutesArr) && (
+          <Header
+            isAuth={isAuth}
+            isBurgerOpened={isBurgerOpened}
+            onClickAccordion={handleClickAccordion}
+          />
+        )}
+        <div className='app__main'>
+          <Routes>
+            <Route path='/' element={<Main />} />
+
+            <Route element={<ProtectedRoute isAuth={isAuth} />}>
+              <Route
+                path='/movies'
+                element={
+                  <Movies
+                    isShortMovie={isShortMovie}
+                    handleFilterMovies={handleFilterMovies}
+                    onDislike={handleDeleteMovie}
+                    onLike={handleSaveMovie}
+                    savedMoviesList={savedMoviesList}
+                  />
+                }
+              />
+              <Route
+                path='/saved-movies'
+                element={
+                  <SavedMovies
+                    savedMoviesList={savedMoviesList}
+                    onDislike={handleDeleteMovie}
+                    onLike={handleSaveMovie}
+                  />
+                }
+              />
+              <Route
+                path='/profile'
+                element={<Profile logOut={handleLogOut} />}
+              />
+            </Route>
+
+            <Route element={<ProtectedRoute isAuth={!isAuth} />}>
+              <Route
+                path='/signup'
+                element={<Register setIsAuth={setIsAuth} />}
+              />
+              <Route path='/signin' element={<Login setIsAuth={setIsAuth} />} />
+            </Route>
+
+            <Route path='/*' element={<NotFound />} />
+          </Routes>
+        </div>
+        {isComponentActive(footerRoutesArr) && <Footer />}
+        <InfoTooltip
+          isOpen={isTooltipOpen}
+          onClick={() => setIsTooltipOpen(false)}
+          message='Во время запроса произошла ошибка. Подождите и попробуйте ещё раз'
         />
-      )}
-      <div className='app__main'>
-        <Routes>
-          <Route path='/' element={<Main />}></Route>
-          <Route path='/movies' element={<Movies />}></Route>
-          <Route path='/saved-movies' element={<SavedMovies />}></Route>
-          <Route path='/profile' element={<Profile />}></Route>
-          <Route path='/signup' element={<Register />}></Route>
-          <Route path='/signin' element={<Login />}></Route>
-          <Route path='/*' element={<NotFound />}></Route>
-        </Routes>
       </div>
-      {isComponentActive(footerRoutesArr) && <Footer />}
-    </div>
+    </CurrentUserContext.Provider>
   )
 }
 

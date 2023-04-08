@@ -22,6 +22,7 @@
 
 ## Ссылки:
 + [Макет](https://disk.yandex.ru/d/XvBdWqkYPqxO-A)
-
-[//]: # (+ [Сайт]&#40;&#41;)
 + [Репозиторий с бэкендом](https://github.com/lemarz/movies-explorer-api)
++ [Backend](https://api.movies-finder.nomoredomainsclub.ru)
++ [Frontend](https://movies-finder.nomoredomainsclub.ru)
++ [Pull request level-3](https://github.com/lemarz/movies-explorer-frontend/pull/2)

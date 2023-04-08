@@ -1,20 +1,33 @@
 import './SearchForm.css'
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
-import {useState} from 'react'
 
-function SearchForm() {
-  const [isShortMovies, setIsShortMovies] = useState(false)
-  const handleFilterMovies = () => setIsShortMovies(!isShortMovies)
-
+function SearchForm({
+  isShortMovies,
+  handleFilterMovies,
+  request,
+  onChangeRequest,
+  onSubmit,
+  defaultValue,
+  isRequired,
+}) {
   return (
     <div className='search-form'>
       <form className='search-form__form'>
         <input
           className='search-form__input'
-          required={true}
+          required={isRequired}
           placeholder='Фильм'
+          onInput={onChangeRequest}
+          defaultValue={defaultValue}
         />
-        <button className='search-form__button'>Найти</button>
+        <button
+          className={`search-form__button ${
+            !request && isRequired && 'search-form__button_disabled'
+          } `}
+          disabled={!request && isRequired}
+          onClick={onSubmit}>
+          Найти
+        </button>
       </form>
       <div className='search-form_checkbox'>
         <FilterCheckbox
